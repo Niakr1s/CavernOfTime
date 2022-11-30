@@ -2,9 +2,9 @@
 {
     public class Pit : CavernItem
     {
-        public override bool Interact(Player player)
+        public override bool InteractWithPlayer(Cavern cavern)
         {
-            player.IsDead = true;
+            cavern.Player.IsDead = true;
             return true;
         }
     }

@@ -88,7 +88,7 @@
             item = GetCavernItem();
             if (item == null) { return false; }
 
-            bool interacted = item.Interact(Player);
+            bool interacted = item.InteractWithPlayer(this);
             if (!item.IsActive)
             {
                 RemoveCavernItem();

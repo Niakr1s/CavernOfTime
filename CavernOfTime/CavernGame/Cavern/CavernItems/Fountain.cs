@@ -5,9 +5,9 @@
         private bool _isActive;
         public override bool IsActive => _isActive;
 
-        public override bool Interact(Player player)
+        public override bool InteractWithPlayer(Cavern cavern)
         {
-            player.FountainVisited = true;
+            cavern.Player.FountainVisited = true;
             _isActive = false;
 
             return true;

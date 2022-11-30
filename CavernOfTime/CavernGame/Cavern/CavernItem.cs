@@ -9,6 +9,11 @@
 
         public virtual bool AutoInteract { get; } = true;
 
-        public abstract bool Interact(Player player);
+        /// <summary>
+        /// Calls, when player means to interact with item.
+        /// </summary>
+        /// <param name="cavern"></param>
+        /// <returns></returns>
+        public abstract bool InteractWithPlayer(Cavern cavern);
     }
 }
