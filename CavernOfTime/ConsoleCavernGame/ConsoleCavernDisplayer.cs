@@ -4,6 +4,7 @@
     {
         private const char _PlayerIcon = 'P';
         private const char _FountainIcon = 'F';
+        private const char _PitIcon = 'X';
 
         public override void Display(Cavern cavern)
         {
@@ -62,12 +63,12 @@
 
         private char GetIconForCavernItem(CavernItem item)
         {
-            if (item is Fountain)
+            return item switch
             {
-                return _FountainIcon;
-            }
-
-            throw new ArgumentException($"Unknown CavernItem {item}");
+                Fountain => _FountainIcon,
+                Pit => _PitIcon,
+                _ => throw new ArgumentException($"Unknown CavernItem {item}"),
+            };
         }
 
         private void DisplayPlayer(Player player)
@@ -80,6 +81,9 @@
             {
                 Console.WriteLine("Power of fountain not aquired.");
             }
+
+            string deadStatus = player.IsDead ? "Player is dead" : "Player is alive";
+            Console.WriteLine(deadStatus);
         }
     }
 }
