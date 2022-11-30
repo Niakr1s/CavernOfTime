@@ -1,13 +1,6 @@
 ﻿namespace CavernOfTime
 {
-    public class PlayerAction
-    {
-        public Direction? Direction { get; init; } = null;
-
-        public bool WantInteract { get; init; } = false;
-    }
-
-    internal interface IUserInteractor
+    public interface IUserInteractor
     {
         #region Say
 
@@ -31,8 +24,6 @@
         #region Ask
 
         void AskCavernDimensions(out int rows, out int cols);
-
-        PlayerAction WaitPlayerAction();
 
         #endregion
 

@@ -4,7 +4,7 @@
     {
         #region Constructors
 
-        public ConsoleUserInteractor(IPlayerController controller)
+        public ConsoleUserInteractor(IKeyboardController controller)
         {
             PlayerMoveController = controller;
         }
@@ -13,7 +13,7 @@
 
         #region Members
 
-        IPlayerController PlayerMoveController { get; }
+        IKeyboardController PlayerMoveController { get; }
 
         #endregion
 

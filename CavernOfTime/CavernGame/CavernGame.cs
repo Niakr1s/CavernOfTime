@@ -1,31 +1,22 @@
-﻿using CavernOfTime.ConsoleGame;
-
-namespace CavernOfTime
+﻿namespace CavernOfTime
 {
-    public interface ICavernGame
-    {
-        void Start();
-    }
-
     public class CavernGame : ICavernGame
     {
         #region Constructors
-        private CavernGame(IUserInteractor io, ICavernDisplayer cavernDisplayer, IRules rules)
+        public CavernGame(IUserInteractor io, ICavernDisplayer cavernDisplayer, IKeyboardController keyboardController, IRules rules)
         {
             Io = io;
             CavernDisplayer = cavernDisplayer;
+            KeyboardController = keyboardController;
             Rules = rules;
-        }
-
-        public static CavernGame NewConsoleCavernGame()
-        {
-            return new CavernGame(new ConsoleUserInteractor(ConsolePlayerMoveController.WsadAndArrows()), new ConsoleCavernDisplayer(), new StandardRules());
         }
         #endregion
 
         #region Systems
 
         private IUserInteractor Io { get; }
+
+        private IKeyboardController KeyboardController { get; }
 
         private ICavernDisplayer CavernDisplayer { get; }
 
@@ -44,7 +35,7 @@ namespace CavernOfTime
             {
                 CavernDisplayer.Display(cavern);
 
-                PlayerAction action = Io.WaitPlayerAction();
+                PlayerAction action = KeyboardController.WaitPlayerAction();
 
                 HandlePlayerAction(cavern, action);
 

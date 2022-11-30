@@ -1,3 +1,5 @@
 ﻿using CavernOfTime;
+using CavernOfTime.ConsoleCavernGame;
 
-CavernGame.NewConsoleCavernGame().Start();
+ICavernGame game = new ConsoleCavernGame(new StandardRules());
+game.Start();

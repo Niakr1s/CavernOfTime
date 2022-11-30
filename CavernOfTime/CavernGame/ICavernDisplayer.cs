@@ -1,12 +1,7 @@
 ﻿namespace CavernOfTime
 {
-    internal interface ICavernDisplayer
+    public interface ICavernDisplayer
     {
         void Display(Cavern cavern);
-    }
-
-    internal abstract class CavernDisplayer : ICavernDisplayer
-    {
-        public abstract void Display(Cavern cavern);
     }
 }

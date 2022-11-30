@@ -1,27 +1,16 @@
 ﻿namespace CavernOfTime.ConsoleGame
 {
-    public interface IPlayerController
-    {
-        Dictionary<ConsoleKey, PlayerAction> Keybindings { get; }
-
-        /// <summary>
-        /// Shouldn't throw exceptions.
-        /// </summary>
-        /// <returns></returns>
-        PlayerAction WaitPlayerAction();
-    }
-
-    internal class ConsolePlayerMoveController : IPlayerController
+    internal class ConsoleKeyboardController : IKeyboardController
     {
         #region Constructors
 
-        private ConsolePlayerMoveController(
+        private ConsoleKeyboardController(
             Dictionary<ConsoleKey, PlayerAction> keybindings)
         {
             Keybindings = keybindings;
         }
 
-        public static ConsolePlayerMoveController WsadAndArrows()
+        public static ConsoleKeyboardController WsadAndArrows()
         {
             Dictionary<ConsoleKey, PlayerAction> directionKeybindings = new()
             {
@@ -41,7 +30,7 @@
 
             ConsoleKey[] interactKeybindings = new ConsoleKey[] { ConsoleKey.Enter, ConsoleKey.Spacebar };
 
-            return new ConsolePlayerMoveController(directionKeybindings);
+            return new ConsoleKeyboardController(directionKeybindings);
         }
 
         #endregion
