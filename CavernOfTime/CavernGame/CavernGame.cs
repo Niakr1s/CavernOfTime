@@ -50,7 +50,7 @@
         /// </summary>
         /// <param name="cavern"></param>
         /// <param name="action"></param>
-        /// <returns>False if action wasn't handled.</returns>
+        /// <returns></returns>
         private void HandlePlayerAction(Cavern cavern, PlayerAction action)
         {
             if (action.WantInteract)
