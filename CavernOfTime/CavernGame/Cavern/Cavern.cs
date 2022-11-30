@@ -7,7 +7,7 @@
         public Cavern(int rows, int cols)
         {
             if (rows <= 2 || cols <= 2) throw new ArgumentException("Rows and cols must be > 2");
-            CavernMap = new CavernItem?[rows, cols];
+            Map = new CavernItem?[rows, cols];
 
             while (!AddCavernItemAtRandomPosition(new Fountain())) ;
 
@@ -20,11 +20,11 @@
         public Cavern(int dim) : this(dim, dim) { }
         #endregion
 
-        private CavernItem?[,] CavernMap { get; }
+        private CavernItem?[,] Map { get; }
 
-        public int Rows { get => CavernMap.GetLength(0); }
+        public int Rows { get => Map.GetLength(0); }
 
-        public int Cols { get => CavernMap.GetLength(1); }
+        public int Cols { get => Map.GetLength(1); }
 
 
         #region Player related logic
@@ -122,7 +122,7 @@
         /// <param name="position"></param>
         private void AddCavernItemAtPositionMust(CavernItem item, Position position)
         {
-            CavernMap[position.Row, position.Col] = item;
+            Map[position.Row, position.Col] = item;
         }
 
         /// <summary>
@@ -132,7 +132,7 @@
         /// <returns></returns>
         public CavernItem? GetCavernItem(Position position)
         {
-            return CavernMap[position.Row, position.Col];
+            return Map[position.Row, position.Col];
         }
 
         /// <summary>
@@ -154,7 +154,7 @@
             CavernItem? item = GetCavernItem(position);
             if (item == null) { return false; }
 
-            CavernMap[position.Row, position.Col] = null;
+            Map[position.Row, position.Col] = null;
             return true;
         }
 
