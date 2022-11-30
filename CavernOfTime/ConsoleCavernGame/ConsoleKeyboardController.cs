@@ -19,16 +19,14 @@
                 { ConsoleKey.A, new(){ Direction = Direction.West } },
                 { ConsoleKey.D, new(){ Direction = Direction.East } },
 
-                { ConsoleKey.UpArrow, new(){ Direction = Direction.North } },
-                { ConsoleKey.DownArrow, new(){ Direction = Direction.South } },
-                { ConsoleKey.LeftArrow, new(){ Direction = Direction.West } },
-                { ConsoleKey.RightArrow, new(){ Direction = Direction.East } },
+                { ConsoleKey.UpArrow, new(){ ShootDirection = Direction.North } },
+                { ConsoleKey.DownArrow, new(){ ShootDirection = Direction.South } },
+                { ConsoleKey.LeftArrow, new(){ ShootDirection = Direction.West } },
+                { ConsoleKey.RightArrow, new(){ ShootDirection = Direction.East } },
 
                 {ConsoleKey.Enter , new() {WantInteract = true} },
                 {ConsoleKey.Spacebar , new() {WantInteract = true} },
             };
-
-            ConsoleKey[] interactKeybindings = new ConsoleKey[] { ConsoleKey.Enter, ConsoleKey.Spacebar };
 
             return new ConsoleKeyboardController(directionKeybindings);
         }

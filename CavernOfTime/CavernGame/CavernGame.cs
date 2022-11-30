@@ -65,6 +65,12 @@
                 return;
             }
 
+            if (action.ShootDirection is Direction attackDirection)
+            {
+                cavern.PlayerAttackDirection(attackDirection);
+                return;
+            }
+
             if (action.WantInteract)
             {
                 cavern.InteractPlayerWithItem(out CavernItem? _);

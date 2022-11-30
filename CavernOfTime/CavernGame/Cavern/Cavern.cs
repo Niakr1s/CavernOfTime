@@ -130,6 +130,26 @@
             return interacted;
         }
 
+        /// <summary>
+        /// Interacts player with item on Player's position.
+        /// </summary>
+        /// <returns></returns>
+        public bool PlayerAttackDirection(Direction attackDirection)
+        {
+            Position attackPosition = PlayerPosition.MoveToDirection(attackDirection);
+
+            bool inBounds = attackPosition.IsInBounds(this);
+            if (!inBounds) { return false; }
+
+            CavernItem? target = GetCavernItem(attackPosition);
+            if (target == null) { return false; }
+
+            target.ReceiveAttackFromPlayer(Player.Weapon);
+            CleanInactiveCavernItems();
+
+            return true;
+        }
+
         #endregion
 
 
@@ -236,6 +256,19 @@
         private bool RemoveCavernItem()
         {
             return RemoveCavernItem(PlayerPosition);
+        }
+
+        private void CleanInactiveCavernItems()
+        {
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Cols; col++)
+                {
+                    Position position = new Position(row, col);
+                    CavernItem? item = GetCavernItem(new Position(row, col));
+                    if (item != null && !item.IsActive) { RemoveCavernItem(position); }
+                }
+            }
         }
 
         #endregion

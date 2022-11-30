@@ -7,5 +7,11 @@
             cavern.Player.IsDead = true;
             return true;
         }
+
+        public override bool ReceiveAttackFromPlayer(Weapon weapon)
+        {
+            IsActive = false;
+            return true;
+        }
     }
 }

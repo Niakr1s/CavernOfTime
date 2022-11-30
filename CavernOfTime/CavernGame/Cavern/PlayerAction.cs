@@ -4,6 +4,8 @@
     {
         public Direction? Direction { get; init; } = null;
 
+        public Direction? ShootDirection { get; init; } = null;
+
         public bool WantInteract { get; init; } = false;
     }
 }

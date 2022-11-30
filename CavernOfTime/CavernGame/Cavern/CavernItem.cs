@@ -5,7 +5,7 @@
     /// </summary>
     public abstract class CavernItem
     {
-        public virtual bool IsActive { get; } = true;
+        public virtual bool IsActive { get; set; } = true;
 
         public virtual bool AutoInteract { get; } = true;
 
@@ -15,5 +15,15 @@
         /// <param name="cavern"></param>
         /// <returns></returns>
         public abstract bool InteractWithPlayer(Cavern cavern);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="weapon"></param>
+        /// <returns>False, if wasn't attacked</returns>
+        public virtual bool ReceiveAttackFromPlayer(Weapon weapon)
+        {
+            return false;
+        }
     }
 }
