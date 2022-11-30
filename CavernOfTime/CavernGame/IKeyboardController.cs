@@ -9,5 +9,11 @@
         /// </summary>
         /// <returns></returns>
         PlayerAction WaitPlayerAction();
+
+
+        public string KeybindingsHelp()
+        {
+            return string.Join("\n", Keybindings.Select(kb => $"{kb.Key} => {kb.Value.ToString()!.Split('.')[^1]}"));
+        }
     }
 }

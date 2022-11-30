@@ -28,6 +28,7 @@
         public void Start()
         {
             UserInteractor.SayWelcome();
+            UserInteractor.Say($"\nKeybindings:\n{KeyboardController.KeybindingsHelp()}\n");
 
             Cavern cavern = CreateCavern();
             UserInteractor.StepEnd();
