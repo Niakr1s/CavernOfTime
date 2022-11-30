@@ -1,4 +1,6 @@
-﻿namespace CavernOfTime.ConsoleGame
+﻿using CavernOfTime.ConsoleCavernGame;
+
+namespace CavernOfTime.ConsoleGame
 {
     internal class ConsoleCavernDisplayer : CavernDisplayer
     {
@@ -52,23 +54,11 @@
                 CavernItem? item = cavern.GetCavernItem(position);
                 if (item != null)
                 {
-                    displayIcon = GetIconForCavernItem(item);
+                    displayIcon = item.Icon();
                 }
             }
 
             return displayIcon;
-        }
-
-        private char GetIconForCavernItem(CavernItem item)
-        {
-            return item switch
-            {
-                Fountain => 'F',
-                Pit => 'P',
-                Maelstorm => 'M',
-                Goblin => 'G',
-                _ => throw new ArgumentException($"Unknown CavernItem {item}"),
-            };
         }
 
         private void DisplayPlayer(Player player)
