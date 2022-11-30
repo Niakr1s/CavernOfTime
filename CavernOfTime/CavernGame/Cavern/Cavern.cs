@@ -74,7 +74,50 @@
         #endregion
 
 
-        #region Helpers
+        #region CavernMap handle
+
+        public bool AddCavernItemAtPosition(
+            CavernItem item,
+            Position position,
+            bool canPlaceOnPlayersPosition = false,
+            bool canOverridePreviousCavernItem = false
+            )
+        {
+            if (!canPlaceOnPlayersPosition && position == PlayerPosition) { return false; }
+
+            CavernItem? previousCavernItem = GetCavernItem(position);
+            if (previousCavernItem == null)
+            {
+                AddCavernItemAtPositionMust(item, position);
+                return true;
+            }
+            // From here previousCavernItem is not null.
+
+            if (!canOverridePreviousCavernItem) { return false; }
+
+            AddCavernItemAtPositionMust(item, position);
+            return true;
+        }
+
+        public bool AddCavernItemAtRandomPosition(
+            CavernItem item,
+            bool canPlaceOnPlayersPosition = false,
+            bool canOverridePreviousCavernItem = false
+            )
+        {
+            Position randomPosition = Position.RandomInBounds(this);
+            return AddCavernItemAtPosition(item, randomPosition, canPlaceOnPlayersPosition, canOverridePreviousCavernItem);
+        }
+
+        /// <summary>
+        /// Small helper, that just puts cavern item at position.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="position"></param>
+        private void AddCavernItemAtPositionMust(CavernItem item, Position position)
+        {
+            CavernMap[position.Row, position.Col] = item;
+        }
 
         /// <summary>
         /// Gets cavern item at position.
