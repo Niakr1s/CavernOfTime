@@ -60,7 +60,15 @@
         public bool InteractPlayerWithItem(out CavernItem? item)
         {
             item = GetCavernItem();
-            return item?.Interact(Player) ?? false;
+            if (item == null) { return false; }
+
+            bool interacted = item.Interact(Player);
+            if (!item.IsActive)
+            {
+                RemoveCavernItem();
+            }
+
+            return interacted;
         }
 
         #endregion
@@ -68,14 +76,46 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Gets cavern item at position.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public CavernItem? GetCavernItem(Position position)
         {
             return CavernMap[position.Row, position.Col];
         }
 
+        /// <summary>
+        /// Gets cavern item at player's position.
+        /// </summary>
+        /// <returns></returns>
         public CavernItem? GetCavernItem()
         {
             return GetCavernItem(PlayerPosition);
+        }
+
+        /// <summary>
+        /// Removes cavern item at position.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>True, if item was actually deleted</returns>
+        public bool RemoveCavernItem(Position position)
+        {
+            CavernItem? item = GetCavernItem(position);
+            if (item == null) { return false; }
+
+            CavernMap[position.Row, position.Col] = null;
+            return true;
+        }
+
+        /// <summary>
+        /// Removes cavern item at player's position.
+        /// </summary>
+        /// <returns>True, if item was actually deleted</returns>
+        private bool RemoveCavernItem()
+        {
+            return RemoveCavernItem(PlayerPosition);
         }
 
         #endregion
