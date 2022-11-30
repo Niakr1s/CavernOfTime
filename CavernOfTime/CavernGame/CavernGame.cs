@@ -32,6 +32,8 @@
             Cavern cavern = CreateCavern();
             UserInteractor.StepEnd();
 
+            cavern.PlayerPositionChanged += OnPlayerPositionChanged;
+
             do
             {
                 CavernDisplayer.Display(cavern);
@@ -42,6 +44,8 @@
 
                 UserInteractor.StepEnd();
             } while (!Rules.GameEnded(cavern));
+
+            cavern.PlayerPositionChanged -= OnPlayerPositionChanged;
 
             CavernDisplayer.Display(cavern);
             UserInteractor.SayGoodbye();
@@ -55,27 +59,31 @@
         /// <returns></returns>
         private void HandlePlayerAction(Cavern cavern, PlayerAction action)
         {
-            bool autoInteract = false;
-
             if (action.Direction is Direction direction)
             {
-                bool moved = cavern.MovePlayerToDirection(direction);
-                CavernItem? item = cavern.GetCavernItem();
-                if (moved && item != null && item.AutoInteract) { autoInteract = true; }
+                cavern.MovePlayerToDirection(direction);
+                return;
             }
 
-            if (action.WantInteract || autoInteract)
+            if (action.WantInteract)
             {
-                bool interacted = cavern.InteractPlayerWithItem(out CavernItem? interactedItem);
-                if (interacted)
-                {
-                    UserInteractor.Say($"Player interacted with item {interactedItem}!");
-                }
+                cavern.InteractPlayerWithItem(out CavernItem? _);
                 return;
             }
         }
 
         #endregion
+
+
+        #region Event handlers
+
+        private void OnPlayerPositionChanged(Cavern cavern, Position position)
+        {
+            cavern.InteractPlayerWithItem(out CavernItem? _);
+        }
+
+        #endregion
+
 
         #region Helpers
         /// <summary>

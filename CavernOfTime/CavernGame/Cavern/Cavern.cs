@@ -1,5 +1,7 @@
 ﻿namespace CavernOfTime
 {
+    public delegate void PlayerPositionChangedHandler(Cavern cavern, Position prevPosition);
+
     public record CavernItemsCountConfig(int Fountains, int Pits, int Maelstorms);
 
     public class Cavern
@@ -53,10 +55,14 @@
         public int Cols { get => Map.GetLength(1); }
 
 
+
+
         #region Player related logic
 
         private Position _playerPosition = new Position(0, 0);
 
+
+        public event PlayerPositionChangedHandler? PlayerPositionChanged;
         public Position PlayerPosition
         {
             get => _playerPosition;
@@ -66,8 +72,10 @@
                 if (!canMove) { return; }
 
                 _playerPosition = value;
+                PlayerPositionChanged?.Invoke(this, value);
             }
         }
+
 
         public Player Player { get; } = new Player();
 
