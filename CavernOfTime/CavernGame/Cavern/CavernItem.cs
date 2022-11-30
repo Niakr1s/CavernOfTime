@@ -7,6 +7,8 @@
     {
         public virtual bool IsActive { get; } = true;
 
+        public virtual bool AutoInteract { get; } = true;
+
         public abstract bool Interact(Player player);
     }
 }

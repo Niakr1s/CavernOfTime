@@ -55,7 +55,16 @@
         /// <returns></returns>
         private void HandlePlayerAction(Cavern cavern, PlayerAction action)
         {
-            if (action.WantInteract)
+            bool autoInteract = false;
+
+            if (action.Direction is Direction direction)
+            {
+                bool moved = cavern.MovePlayerToDirection(direction);
+                CavernItem? item = cavern.GetCavernItem();
+                if (moved && item != null && item.AutoInteract) { autoInteract = true; }
+            }
+
+            if (action.WantInteract || autoInteract)
             {
                 bool interacted = cavern.InteractPlayerWithItem(out CavernItem? interactedItem);
                 if (interacted)
@@ -64,13 +73,8 @@
                 }
                 return;
             }
-
-            if (action.Direction is Direction direction)
-            {
-                cavern.MovePlayerToDirection(direction);
-                return;
-            }
         }
+
         #endregion
 
         #region Helpers
