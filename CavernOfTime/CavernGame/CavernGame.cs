@@ -34,6 +34,7 @@
             UserInteractor.StepEnd();
 
             cavern.PlayerPositionChanged += OnPlayerPositionChanged;
+            cavern.EventLog += OnEventLog;
 
             do
             {
@@ -90,33 +91,17 @@
 
         private void MovePlayerToDirection(Cavern cavern, Direction direction)
         {
-            bool moved = cavern.MovePlayerToDirection(direction);
-            if (moved)
-            {
-                string logMessage = $"Player moved to {direction}";
-                UserInteractor.AddToLog(logMessage);
-            }
+            cavern.MovePlayerToDirection(direction);
         }
 
         private void PlayerAttackDirection(Cavern cavern, Direction attackDirection)
         {
-            bool attacked = cavern.PlayerAttackDirection(attackDirection);
-            if (attacked)
-            {
-                string logMessage = $"Attacked to {attackDirection}";
-                UserInteractor.AddToLog(logMessage);
-            }
+            cavern.PlayerAttackDirection(attackDirection);
         }
 
         private void InteractPlayerWithItem(Cavern cavern)
         {
-            bool interacted = cavern.InteractPlayerWithItem(out CavernItem? interactedCavernItem);
-            if (interacted)
-            {
-                string logMessage = $"Player interacted with {interactedCavernItem}";
-                UserInteractor.AddToLog(logMessage);
-            }
-
+            cavern.InteractPlayerWithItem(out CavernItem? _);
         }
 
         #endregion
@@ -127,6 +112,11 @@
         private void OnPlayerPositionChanged(Cavern cavern, Position position)
         {
             InteractPlayerWithItem(cavern);
+        }
+
+        private void OnEventLog(string logMsg)
+        {
+            UserInteractor.AddToLog(logMsg);
         }
 
         #endregion

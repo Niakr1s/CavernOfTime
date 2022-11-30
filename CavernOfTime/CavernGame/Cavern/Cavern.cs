@@ -2,6 +2,8 @@
 {
     public delegate void PlayerPositionChangedHandler(Cavern cavern, Position prevPosition);
 
+    public delegate void EventLogHandler(string logMsg);
+
     public record CavernItemsCountConfig(int Fountains, int Pits, int Maelstorms, int Goblins);
 
     public class Cavern
@@ -62,6 +64,13 @@
 
 
 
+        #region Events
+
+        public event EventLogHandler? EventLog;
+
+        #endregion
+
+
 
         #region Player related logic
 
@@ -77,7 +86,11 @@
                 bool canMove = value.IsInBounds(this);
                 if (!canMove) { return; }
 
+                bool samePosition = _playerPosition == value;
+                if (samePosition) { return; }
+
                 _playerPosition = value;
+                EventLog?.Invoke($"Player moved to {PlayerPosition}");
                 PlayerPositionChanged?.Invoke(this, value);
             }
         }
@@ -121,7 +134,9 @@
             item = GetCavernItem();
             if (item == null) { return false; }
 
-            bool interacted = item.InteractWithPlayer(this);
+            bool interacted = item.InteractWithPlayer(this, out string? logMsg);
+            if (logMsg != null) EventLog?.Invoke(logMsg);
+
             if (!item.IsActive)
             {
                 RemoveCavernItem();
@@ -144,7 +159,9 @@
             CavernItem? target = GetCavernItem(attackPosition);
             if (target == null) { return false; }
 
-            bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon);
+            bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon, out string? logMsg);
+            if (logMsg != null) EventLog?.Invoke(logMsg);
+
             CleanInactiveCavernItems();
 
             return attackSuccess;

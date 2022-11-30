@@ -23,15 +23,17 @@
 
         #region CavernItem implementations 
 
-        public override bool InteractWithPlayer(Cavern cavern)
+        public override bool InteractWithPlayer(Cavern cavern, out string? logMsg)
         {
             cavern.Player.Health.TakeDamage(Weapon.Damage);
+            logMsg = $"Player took {Weapon.Damage} damage";
             return true;
         }
 
-        public override bool ReceiveAttackFromPlayer(Weapon weapon)
+        public override bool ReceiveAttackFromPlayer(Weapon weapon, out string? logMsg)
         {
             Health.TakeDamage(weapon.Damage);
+            logMsg = $"{this.GetType().Name} took {weapon.Damage} damage and has {Health.Value} left";
             return true;
         }
 
