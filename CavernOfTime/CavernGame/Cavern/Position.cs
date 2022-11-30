@@ -15,6 +15,15 @@
 
         }
 
+        public static Position RandomInBounds(Cavern cavern)
+        {
+            Random rand = new Random();
+            int rows = rand.Next(cavern.Rows);
+            int cols = rand.Next(cavern.Cols);
+
+            return new Position(rows, cols);
+        }
+
         /// <summary>
         /// Checks, if position is in bounds [rows,cols].
         /// </summary>
