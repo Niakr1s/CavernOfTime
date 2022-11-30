@@ -31,34 +31,39 @@ namespace CavernOfTime.ConsoleGame
                     Console.Write("|");
 
                     Position currentPosition = new Position(row, col);
-                    char icon = GetIconForPosition(cavern, currentPosition);
-
-                    Console.Write(icon);
+                    WriteIcon(cavern, currentPosition);
                 }
                 Console.WriteLine("|");
             }
             Console.WriteLine(rowStr);
         }
 
-        private char GetIconForPosition(Cavern cavern, Position position)
+        private void WriteIcon(Cavern cavern, Position position)
         {
-            char displayIcon = ' ';
-
             bool playerAtPosition = cavern.PlayerPosition == position;
             if (playerAtPosition)
             {
-                displayIcon = _PlayerIcon;
+                WritePlayerIcon(cavern.Player);
             }
             else
             {
-                CavernItem? item = cavern.GetCavernItem(position);
-                if (item != null)
-                {
-                    displayIcon = item.Icon();
-                }
+                WriteCavernItem(cavern.GetCavernItem(position));
             }
+        }
 
-            return displayIcon;
+        private void WritePlayerIcon(Player player)
+        {
+            ConsoleColor color = player.IsDead ? ConsoleColor.Red : ConsoleColor.Green;
+            Console.ForegroundColor = color;
+            Console.Write(_PlayerIcon);
+
+            Console.ResetColor();
+        }
+
+        private void WriteCavernItem(CavernItem? item)
+        {
+            char icon = item == null ? ' ' : item.Icon();
+            Console.Write(icon);
         }
 
         private void DisplayPlayer(Player player)
