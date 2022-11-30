@@ -18,7 +18,21 @@
             SayError(e.Message);
         }
 
+
         #endregion
+
+
+
+
+        #region Log
+
+        void AddToLog(string message);
+
+        void ShowLog();
+
+        #endregion
+
+
 
 
         #region Ask

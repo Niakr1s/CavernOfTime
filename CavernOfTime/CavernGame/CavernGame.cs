@@ -38,6 +38,7 @@
             do
             {
                 CavernDisplayer.Display(cavern);
+                UserInteractor.ShowLog();
 
                 PlayerAction action = KeyboardController.WaitPlayerAction();
 
@@ -62,19 +63,28 @@
         {
             if (action.Direction is Direction direction)
             {
-                cavern.MovePlayerToDirection(direction);
+                bool moved = cavern.MovePlayerToDirection(direction);
+                string logMessage = moved ? $"Player moved to {direction}" : $"Player could't move to {direction}";
+                UserInteractor.AddToLog(logMessage);
+
                 return;
             }
 
             if (action.ShootDirection is Direction attackDirection)
             {
-                cavern.PlayerAttackDirection(attackDirection);
+                bool attacked = cavern.PlayerAttackDirection(attackDirection);
+                string logMessage = attacked ? $"Player attacked to {attackDirection}" : $"Player couldn't attack to {attackDirection}";
+                UserInteractor.AddToLog(logMessage);
+
                 return;
             }
 
             if (action.WantInteract)
             {
-                cavern.InteractPlayerWithItem(out CavernItem? _);
+                bool interacted = cavern.InteractPlayerWithItem(out CavernItem? interactedCavernItem);
+                string logMessage = interacted ? $"Player interacted with {interactedCavernItem}" : $"Player couldn't interact to {interactedCavernItem}";
+                UserInteractor.AddToLog(logMessage);
+
                 return;
             }
         }

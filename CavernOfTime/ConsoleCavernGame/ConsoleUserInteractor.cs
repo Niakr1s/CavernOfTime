@@ -1,4 +1,6 @@
-﻿namespace CavernOfTime.ConsoleGame
+﻿using CavernOfTime.Common;
+
+namespace CavernOfTime.ConsoleGame
 {
     internal class ConsoleUserInteractor : IUserInteractor
     {
@@ -75,6 +77,31 @@
         }
 
         #endregion
+
+
+        #region Log
+
+        private LimitQueue<string> LogHistory { get; } = new LimitQueue<string>(5);
+
+        public void AddToLog(string message)
+        {
+            LogHistory.Enqueue(message);
+        }
+
+        public void ShowLog()
+        {
+            Console.WriteLine();
+            foreach (string message in LogHistory)
+            {
+                Console.WriteLine(message);
+            }
+            Console.WriteLine();
+        }
+
+        #endregion
+
+
+
 
         #region Helpers
         private static int ReadInt()
