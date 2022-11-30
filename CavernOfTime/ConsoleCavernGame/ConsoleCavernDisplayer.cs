@@ -4,7 +4,7 @@ namespace CavernOfTime.ConsoleGame
 {
     internal class ConsoleCavernDisplayer : CavernDisplayer
     {
-        private const char _PlayerIcon = 'P';
+        private const char _playerIcon = 'P';
 
         public override void Display(Cavern cavern)
         {
@@ -55,7 +55,7 @@ namespace CavernOfTime.ConsoleGame
         {
             ConsoleColor color = player.IsDead ? ConsoleColor.Red : ConsoleColor.Green;
             Console.ForegroundColor = color;
-            Console.Write(_PlayerIcon);
+            Console.Write(_playerIcon);
 
             Console.ResetColor();
         }
