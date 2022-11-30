@@ -8,7 +8,13 @@
         {
             if (rows <= 2 || cols <= 2) throw new ArgumentException("Rows and cols must be > 2");
             CavernMap = new CavernItem?[rows, cols];
-            CavernMap[0, 2] = new Fountain();
+
+            while (!AddCavernItemAtRandomPosition(new Fountain())) ;
+
+            for (int i = 0; i < 2; i++)
+            {
+                while (!AddCavernItemAtRandomPosition(new Pit())) ;
+            }
         }
 
         public Cavern(int dim) : this(dim, dim) { }
