@@ -43,6 +43,7 @@
                 UserInteractor.StepEnd();
             } while (!Rules.GameEnded(cavern));
 
+            CavernDisplayer.Display(cavern);
             UserInteractor.SayGoodbye();
         }
 
@@ -66,13 +67,7 @@
 
             if (action.Direction is Direction direction)
             {
-                bool playerMoved = cavern.MovePlayerToDirection(direction);
-                if (playerMoved)
-                    UserInteractor.Say($"Player moved to {action}");
-                else
-                {
-                    UserInteractor.SayError($"Player couldn't move to {action}");
-                }
+                cavern.MovePlayerToDirection(direction);
                 return;
             }
         }
