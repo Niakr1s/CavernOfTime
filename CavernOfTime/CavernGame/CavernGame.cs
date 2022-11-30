@@ -5,7 +5,7 @@
         #region Constructors
         public CavernGame(IUserInteractor io, ICavernDisplayer cavernDisplayer, IKeyboardController keyboardController, IRules rules)
         {
-            Io = io;
+            UserInteractor = io;
             CavernDisplayer = cavernDisplayer;
             KeyboardController = keyboardController;
             Rules = rules;
@@ -14,7 +14,7 @@
 
         #region Systems
 
-        private IUserInteractor Io { get; }
+        private IUserInteractor UserInteractor { get; }
 
         private IKeyboardController KeyboardController { get; }
 
@@ -27,7 +27,7 @@
         #region ICavernGame implementation
         public void Start()
         {
-            Io.SayWelcome();
+            UserInteractor.SayWelcome();
 
             Cavern cavern = CreateCavern();
 
@@ -39,10 +39,10 @@
 
                 HandlePlayerAction(cavern, action);
 
-                Io.StepEnd();
+                UserInteractor.StepEnd();
             } while (!Rules.GameEnded(cavern));
 
-            Io.SayGoodbye();
+            UserInteractor.SayGoodbye();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@
                 bool interacted = cavern.InteractPlayerWithItem(out CavernItem? interactedItem);
                 if (interacted)
                 {
-                    Io.Say($"Player interacted with item {interactedItem}!");
+                    UserInteractor.Say($"Player interacted with item {interactedItem}!");
                 }
                 return;
             }
@@ -67,10 +67,10 @@
             {
                 bool playerMoved = cavern.MovePlayerToDirection(direction);
                 if (playerMoved)
-                    Io.Say($"Player moved to {action}");
+                    UserInteractor.Say($"Player moved to {action}");
                 else
                 {
-                    Io.SayError($"Player couldn't move to {action}");
+                    UserInteractor.SayError($"Player couldn't move to {action}");
                 }
                 return;
             }
@@ -89,15 +89,15 @@
             {
                 try
                 {
-                    Io.AskCavernDimensions(out int rows, out int cols);
+                    UserInteractor.AskCavernDimensions(out int rows, out int cols);
                     cavern = new Cavern(rows, cols);
                 }
                 catch (Exception e)
                 {
-                    Io.SayError(e);
+                    UserInteractor.SayError(e);
                 }
 
-                Io.StepEnd();
+                UserInteractor.StepEnd();
             } while (cavern == null);
 
             return cavern;
