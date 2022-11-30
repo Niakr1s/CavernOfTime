@@ -3,9 +3,6 @@
     internal class ConsoleCavernDisplayer : CavernDisplayer
     {
         private const char _PlayerIcon = 'P';
-        private const char _FountainIcon = 'F';
-        private const char _PitIcon = 'X';
-        private const char _MaelstormIcon = 'M';
 
         public override void Display(Cavern cavern)
         {
@@ -66,9 +63,10 @@
         {
             return item switch
             {
-                Fountain => _FountainIcon,
-                Pit => _PitIcon,
-                Maelstorm => _MaelstormIcon,
+                Fountain => 'F',
+                Pit => 'P',
+                Maelstorm => 'M',
+                Goblin => 'G',
                 _ => throw new ArgumentException($"Unknown CavernItem {item}"),
             };
         }

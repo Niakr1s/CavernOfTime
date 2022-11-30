@@ -2,7 +2,7 @@
 {
     public delegate void PlayerPositionChangedHandler(Cavern cavern, Position prevPosition);
 
-    public record CavernItemsCountConfig(int Fountains, int Pits, int Maelstorms);
+    public record CavernItemsCountConfig(int Fountains, int Pits, int Maelstorms, int Goblins);
 
     public class Cavern
     {
@@ -31,6 +31,11 @@
             {
                 AddCavernItemAtRandomPosition(new Maelstorm());
             }
+
+            for (int i = 0; i < config.Goblins; i++)
+            {
+                AddCavernItemAtRandomPosition(new Goblin());
+            }
         }
 
         public Cavern(int dim) : this(dim, dim) { }
@@ -42,8 +47,9 @@
             int fountains = 1 + avg / 10;
             int pits = 1 + avg / 3;
             int maelstorms = 1 + avg / 4;
+            int goblins = 1 + avg / 7;
 
-            return new CavernItemsCountConfig(fountains, pits, maelstorms);
+            return new CavernItemsCountConfig(fountains, pits, maelstorms, goblins);
         }
 
         #endregion
