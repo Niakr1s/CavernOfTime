@@ -30,6 +30,7 @@
             UserInteractor.SayWelcome();
 
             Cavern cavern = CreateCavern();
+            UserInteractor.StepEnd();
 
             do
             {
@@ -97,7 +98,6 @@
                     UserInteractor.SayError(e);
                 }
 
-                UserInteractor.StepEnd();
             } while (cavern == null);
 
             return cavern;
