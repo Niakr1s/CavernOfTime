@@ -2,7 +2,7 @@
 {
     public class Goblin : Mob
     {
-        public Goblin() : base(new Health(50))
+        public Goblin() : base(new Health(50), new Weapon(25))
         {
         }
     }

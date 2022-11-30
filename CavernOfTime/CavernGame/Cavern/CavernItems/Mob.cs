@@ -2,9 +2,10 @@
 {
     public abstract class Mob : CavernItem
     {
-        public Mob(Health health)
+        public Mob(Health health, Weapon weapon)
         {
             Health = health;
+            Weapon = weapon;
         }
 
         public override bool IsActive
@@ -16,13 +17,15 @@
 
         public Health Health { get; }
 
+        public Weapon Weapon { get; }
+
 
 
         #region CavernItem implementations 
 
         public override bool InteractWithPlayer(Cavern cavern)
         {
-            cavern.Player.IsDead = true;
+            cavern.Player.Health.TakeDamage(Weapon.Damage);
             return true;
         }
 
