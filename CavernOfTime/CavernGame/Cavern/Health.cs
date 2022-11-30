@@ -6,7 +6,14 @@
         public Health(int initialHealth)
         {
             _value = initialHealth;
+            _initialValue = initialHealth;
         }
+
+
+        private int _initialValue;
+
+
+        public int Percent { get => (Value * 100) / _initialValue; }
 
 
 

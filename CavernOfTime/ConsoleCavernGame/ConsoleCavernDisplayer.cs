@@ -53,8 +53,7 @@ namespace CavernOfTime.ConsoleGame
 
         private void WritePlayerIcon(Player player)
         {
-            ConsoleColor color = player.IsDead ? ConsoleColor.Red : ConsoleColor.Green;
-            WriteIconWithColor(_playerIcon, color);
+            WriteIconWithColor(_playerIcon, player.Health.Color());
         }
 
         private void WriteCavernItem(CavernItem? item)

@@ -21,7 +21,7 @@
                 Fountain => ConsoleColor.Cyan,
                 Pit => ConsoleColor.Magenta,
                 Teleport => ConsoleColor.Magenta,
-                Mob => ConsoleColor.Red,
+                Mob m => m.Health.Color(),
                 _ => throw new ArgumentException($"Unknown CavernItem {item}"),
             };
         }
