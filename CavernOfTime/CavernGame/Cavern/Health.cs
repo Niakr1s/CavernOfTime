@@ -27,6 +27,7 @@
         public void TakeDamage(int dmg)
         {
             _value -= dmg;
+            if (_value < 0) { _value = 0; }
         }
     }
 }
