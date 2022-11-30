@@ -73,14 +73,8 @@
 
         private void DisplayPlayer(Player player)
         {
-            if (player.FountainVisited)
-            {
-                Console.WriteLine("Power of fountain aquired.");
-            }
-            else
-            {
-                Console.WriteLine("Power of fountain not aquired.");
-            }
+            string fountainVisitedStatus = player.FountainVisited ? "Power of fountain aquired." : "Power of fountain not aquired.";
+            Console.WriteLine(fountainVisitedStatus);
 
             string deadStatus = player.IsDead ? "Player is dead" : "Player is alive";
             Console.WriteLine(deadStatus);
