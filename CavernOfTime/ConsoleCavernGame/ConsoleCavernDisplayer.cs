@@ -5,6 +5,7 @@
         private const char _PlayerIcon = 'P';
         private const char _FountainIcon = 'F';
         private const char _PitIcon = 'X';
+        private const char _MaelstormIcon = 'M';
 
         public override void Display(Cavern cavern)
         {
@@ -67,6 +68,7 @@
             {
                 Fountain => _FountainIcon,
                 Pit => _PitIcon,
+                Maelstorm => _MaelstormIcon,
                 _ => throw new ArgumentException($"Unknown CavernItem {item}"),
             };
         }

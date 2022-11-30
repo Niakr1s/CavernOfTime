@@ -1,6 +1,6 @@
 ﻿namespace CavernOfTime
 {
-    public record CavernItemsCountConfig(int Fountains, int Pits);
+    public record CavernItemsCountConfig(int Fountains, int Pits, int Maelstorms);
 
     public class Cavern
     {
@@ -24,6 +24,11 @@
             {
                 AddCavernItemAtRandomPosition(new Pit());
             }
+
+            for (int i = 0; i < config.Maelstorms; i++)
+            {
+                AddCavernItemAtRandomPosition(new Maelstorm());
+            }
         }
 
         public Cavern(int dim) : this(dim, dim) { }
@@ -34,8 +39,9 @@
 
             int fountains = 1 + avg / 10;
             int pits = 1 + avg / 3;
+            int maelstorms = 1 + avg / 4;
 
-            return new CavernItemsCountConfig(fountains, pits);
+            return new CavernItemsCountConfig(fountains, pits, maelstorms);
         }
 
         #endregion
@@ -54,7 +60,13 @@
         public Position PlayerPosition
         {
             get => _playerPosition;
-            set => _playerPosition = value;
+            set
+            {
+                bool canMove = value.IsInBounds(this);
+                if (!canMove) { return; }
+
+                _playerPosition = value;
+            }
         }
 
         public Player Player { get; } = new Player();
@@ -72,11 +84,18 @@
         public bool MovePlayerToDirection(Direction direction)
         {
             Position newPlayerPosition = PlayerPosition.MoveToDirection(direction);
-            bool canMove = newPlayerPosition.IsInBounds(this);
-            if (!canMove) { return false; }
+            return MovePlayerToPosition(newPlayerPosition);
+        }
 
-            PlayerPosition = newPlayerPosition;
-            return true;
+        /// <summary>
+        /// Almost same as property PlayerPosition setter, but with return statement.
+        /// </summary>
+        /// <param name="position"></param>
+        public bool MovePlayerToPosition(Position position)
+        {
+            Position oldPosition = PlayerPosition;
+            PlayerPosition = position;
+            return oldPosition != PlayerPosition;
         }
 
         /// <summary>
