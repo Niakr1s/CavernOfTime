@@ -1,23 +1,43 @@
 ﻿namespace CavernOfTime
 {
+    public record CavernItemsCountConfig(int Fountains, int Pits);
+
     public class Cavern
     {
 
         #region Constructors
-        public Cavern(int rows, int cols)
+        public Cavern(int rows, int cols, CavernItemsCountConfig? config = null)
         {
             if (rows <= 2 || cols <= 2) throw new ArgumentException("Rows and cols must be > 2");
+
+            if (config == null) config = CalculateConfig(rows, cols);
+
             Map = new CavernItem?[rows, cols];
 
-            while (!AddCavernItemAtRandomPosition(new Fountain())) ;
-
-            for (int i = 0; i < 2; i++)
+            // Fountains should be first.
+            for (int i = 0; i < config.Fountains; i++)
             {
-                while (!AddCavernItemAtRandomPosition(new Pit())) ;
+                AddCavernItemAtRandomPosition(new Fountain(), numTries: 5);
+            }
+
+            for (int i = 0; i < config.Pits; i++)
+            {
+                AddCavernItemAtRandomPosition(new Pit());
             }
         }
 
         public Cavern(int dim) : this(dim, dim) { }
+
+        private static CavernItemsCountConfig CalculateConfig(int rows, int cols)
+        {
+            int avg = (int)Math.Sqrt((double)(rows * cols)) + 1;
+
+            int fountains = 1 + avg / 10;
+            int pits = 1 + avg / 3;
+
+            return new CavernItemsCountConfig(fountains, pits);
+        }
+
         #endregion
 
         private CavernItem?[,] Map { get; }
@@ -105,14 +125,32 @@
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="canPlaceOnPlayersPosition"></param>
+        /// <param name="canOverridePreviousCavernItem"></param>
+        /// <param name="numTries">Number of tries.</param>
+        /// <returns></returns>
         public bool AddCavernItemAtRandomPosition(
             CavernItem item,
             bool canPlaceOnPlayersPosition = false,
-            bool canOverridePreviousCavernItem = false
+            bool canOverridePreviousCavernItem = false,
+            int numTries = 1
             )
         {
-            Position randomPosition = Position.RandomInBounds(this);
-            return AddCavernItemAtPosition(item, randomPosition, canPlaceOnPlayersPosition, canOverridePreviousCavernItem);
+            if (numTries < 0) throw new ArgumentException("numTries should be >= 0");
+
+            for (int i = 0; i < numTries; i++)
+            {
+                Position randomPosition = Position.RandomInBounds(this);
+                bool itemAdded = AddCavernItemAtPosition(item, randomPosition, canPlaceOnPlayersPosition, canOverridePreviousCavernItem);
+
+                if (itemAdded) { return true; }
+            }
+
+            return false;
         }
 
         /// <summary>
