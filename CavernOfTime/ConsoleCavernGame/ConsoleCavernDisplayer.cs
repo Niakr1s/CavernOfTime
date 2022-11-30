@@ -54,16 +54,18 @@ namespace CavernOfTime.ConsoleGame
         private void WritePlayerIcon(Player player)
         {
             ConsoleColor color = player.IsDead ? ConsoleColor.Red : ConsoleColor.Green;
-            Console.ForegroundColor = color;
-            Console.Write(_playerIcon);
-
-            Console.ResetColor();
+            WriteIconWithColor(_playerIcon, color);
         }
 
         private void WriteCavernItem(CavernItem? item)
         {
-            char icon = item == null ? ' ' : item.Icon();
-            Console.Write(icon);
+            if (item == null)
+            {
+                Console.Write(' ');
+                return;
+            }
+
+            WriteIconWithColor(item.Icon(), item.Color());
         }
 
         private void DisplayPlayer(Player player)
@@ -73,6 +75,13 @@ namespace CavernOfTime.ConsoleGame
 
             string deadStatus = player.IsDead ? "Player is dead" : "Player is alive";
             Console.WriteLine(deadStatus);
+        }
+
+        private void WriteIconWithColor(char icon, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(icon);
+            Console.ResetColor();
         }
     }
 }
