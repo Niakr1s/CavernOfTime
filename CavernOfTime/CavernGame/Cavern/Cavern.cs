@@ -29,7 +29,7 @@
 
             for (int i = 0; i < config.Maelstorms; i++)
             {
-                AddCavernItemAtRandomPosition(new Maelstorm());
+                AddCavernItemAtRandomPosition(new Teleport());
             }
 
             for (int i = 0; i < config.Goblins; i++)

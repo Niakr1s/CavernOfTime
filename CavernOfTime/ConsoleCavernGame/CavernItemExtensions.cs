@@ -7,9 +7,9 @@
             return item switch
             {
                 Fountain => 'F',
-                Pit => 'P',
-                Maelstorm => 'M',
-                Goblin => 'G',
+                Pit => 'X',
+                Teleport => 'T',
+                Mob => 'M',
                 _ => throw new ArgumentException($"Unknown CavernItem {item}"),
             };
         }

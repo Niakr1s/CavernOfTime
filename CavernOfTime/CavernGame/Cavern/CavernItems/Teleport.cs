@@ -1,6 +1,6 @@
 ﻿namespace CavernOfTime
 {
-    public class Maelstorm : CavernItem
+    public class Teleport : CavernItem
     {
         public override bool InteractWithPlayer(Cavern cavern)
         {
