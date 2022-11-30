@@ -50,8 +50,16 @@
             cavern.PlayerPositionChanged -= OnPlayerPositionChanged;
 
             CavernDisplayer.Display(cavern);
+            UserInteractor.ShowLog();
+
             UserInteractor.SayGoodbye();
         }
+
+        #endregion
+
+
+
+        #region Player actions
 
         /// <summary>
         /// 
@@ -63,30 +71,52 @@
         {
             if (action.Direction is Direction direction)
             {
-                bool moved = cavern.MovePlayerToDirection(direction);
-                string logMessage = moved ? $"Player moved to {direction}" : $"Player could't move to {direction}";
-                UserInteractor.AddToLog(logMessage);
-
+                MovePlayerToDirection(cavern, direction);
                 return;
             }
 
             if (action.ShootDirection is Direction attackDirection)
             {
-                bool attacked = cavern.PlayerAttackDirection(attackDirection);
-                string logMessage = attacked ? $"Player attacked to {attackDirection}" : $"Player couldn't attack to {attackDirection}";
-                UserInteractor.AddToLog(logMessage);
-
+                PlayerAttackDirection(cavern, attackDirection);
                 return;
             }
 
             if (action.WantInteract)
             {
-                bool interacted = cavern.InteractPlayerWithItem(out CavernItem? interactedCavernItem);
-                string logMessage = interacted ? $"Player interacted with {interactedCavernItem}" : $"Player couldn't interact to {interactedCavernItem}";
-                UserInteractor.AddToLog(logMessage);
-
+                InteractPlayerWithItem(cavern);
                 return;
             }
+        }
+
+        private void MovePlayerToDirection(Cavern cavern, Direction direction)
+        {
+            bool moved = cavern.MovePlayerToDirection(direction);
+            if (moved)
+            {
+                string logMessage = $"Player moved to {direction}";
+                UserInteractor.AddToLog(logMessage);
+            }
+        }
+
+        private void PlayerAttackDirection(Cavern cavern, Direction attackDirection)
+        {
+            bool attacked = cavern.PlayerAttackDirection(attackDirection);
+            if (attacked)
+            {
+                string logMessage = $"Attacked to {attackDirection}";
+                UserInteractor.AddToLog(logMessage);
+            }
+        }
+
+        private void InteractPlayerWithItem(Cavern cavern)
+        {
+            bool interacted = cavern.InteractPlayerWithItem(out CavernItem? interactedCavernItem);
+            if (interacted)
+            {
+                string logMessage = $"Player interacted with {interactedCavernItem}";
+                UserInteractor.AddToLog(logMessage);
+            }
+
         }
 
         #endregion
@@ -96,7 +126,7 @@
 
         private void OnPlayerPositionChanged(Cavern cavern, Position position)
         {
-            cavern.InteractPlayerWithItem(out CavernItem? _);
+            InteractPlayerWithItem(cavern);
         }
 
         #endregion

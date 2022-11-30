@@ -144,10 +144,10 @@
             CavernItem? target = GetCavernItem(attackPosition);
             if (target == null) { return false; }
 
-            target.ReceiveAttackFromPlayer(Player.Weapon);
+            bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon);
             CleanInactiveCavernItems();
 
-            return true;
+            return attackSuccess;
         }
 
         #endregion
