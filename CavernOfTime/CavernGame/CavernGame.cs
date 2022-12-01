@@ -1,60 +1,53 @@
 ﻿namespace CavernOfTime
 {
-    public class CavernGame : ICavernGame
+    public class CavernGame
     {
         #region Constructors
-        public CavernGame(IUserInteractor io, ICavernDisplayer cavernDisplayer, IKeyboardController keyboardController, IRules rules)
+
+        public CavernGame(IRules rules, IUserInteractor userInteractor)
         {
-            UserInteractor = io;
-            CavernDisplayer = cavernDisplayer;
-            KeyboardController = keyboardController;
+            UserInteractor = userInteractor;
             Rules = rules;
         }
         #endregion
 
-        #region Systems
+
+
+
+
+        #region Members
 
         private IUserInteractor UserInteractor { get; }
-
-        private IKeyboardController KeyboardController { get; }
-
-        private ICavernDisplayer CavernDisplayer { get; }
 
         private IRules Rules { get; }
 
         #endregion
 
-        #region ICavernGame implementation
+
+
+
+        #region Main function
+
         public void Start()
         {
-            UserInteractor.SayWelcome();
-            UserInteractor.Say($"\nKeybindings:\n{KeyboardController.KeybindingsHelp()}\n");
+            UserInteractor.DisplayWelcomScreen();
 
             Cavern cavern = CreateCavern();
-            UserInteractor.StepEnd();
 
             cavern.PlayerPositionChanged += OnPlayerPositionChanged;
-            cavern.EventLog += OnEventLog;
 
             do
             {
-                CavernDisplayer.Display(cavern);
-                UserInteractor.ShowLog();
+                UserInteractor.DisplayCavern(cavern);
 
-                PlayerAction action = KeyboardController.WaitPlayerAction();
-
+                PlayerAction action = UserInteractor.WaitPlayerAction();
                 HandlePlayerAction(cavern, action);
-
-                UserInteractor.StepEnd();
             } while (!Rules.GameEnded(cavern));
 
             cavern.PlayerPositionChanged -= OnPlayerPositionChanged;
-            cavern.EventLog -= OnEventLog;
 
-            CavernDisplayer.Display(cavern);
-            UserInteractor.ShowLog();
-
-            UserInteractor.SayGoodbye();
+            UserInteractor.DisplayCavern(cavern);
+            UserInteractor.DisplayGoodbyeScreen();
         }
 
         #endregion
@@ -115,17 +108,15 @@
             PlayerInteractWithItem(cavern);
         }
 
-        private void OnEventLog(string logMsg)
-        {
-            UserInteractor.AddToLog(logMsg);
-        }
-
         #endregion
 
 
+
+
         #region Helpers
+
         /// <summary>
-        /// Returns valid Cavern. Doesn't throw exceptions.
+        /// Returns valid Cavern, using UserInteractor. Doesn't throw exceptions.
         /// </summary>
         /// <returns></returns>
         private Cavern CreateCavern()
@@ -140,13 +131,14 @@
                 }
                 catch (Exception e)
                 {
-                    UserInteractor.SayError(e);
+                    UserInteractor.DisplayError(e);
                 }
 
             } while (cavern == null);
 
             return cavern;
         }
+
         #endregion
     }
 }

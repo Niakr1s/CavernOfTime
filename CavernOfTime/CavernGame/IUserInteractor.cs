@@ -2,36 +2,27 @@
 {
     public interface IUserInteractor
     {
-        #region Say
+        #region Display
 
-        void SayWelcome();
+        void DisplayWelcomScreen();
 
-        void SayGoodbye();
+        void DisplayGoodbyeScreen();
 
-        void Say(string message);
+        /// <summary>
+        /// It will be called every time cavern needed to redraw.
+        /// </summary>
+        /// <param name="cavern"></param>
+        void DisplayCavern(Cavern cavern);
 
 
-        void SayError(string errorMessage);
+        void DisplayError(string errorMessage);
 
-        void SayError(Exception e)
+        void DisplayError(Exception e)
         {
-            SayError(e.Message);
+            DisplayError(e.Message);
         }
 
-
         #endregion
-
-
-
-
-        #region Log
-
-        void AddToLog(string message);
-
-        void ShowLog();
-
-        #endregion
-
 
 
 
@@ -39,18 +30,7 @@
 
         void AskCavernDimensions(out int rows, out int cols);
 
-        #endregion
-
-        #region Step
-
-        /// <summary>
-        /// Get called at end of step (bunch of actions). For console it can be used to clear screen.
-        /// </summary>
-        void StepEnd();
-
-        #endregion
-
-        #region Helpers
+        public PlayerAction WaitPlayerAction();
 
         #endregion
     }

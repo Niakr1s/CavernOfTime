@@ -1,4 +1,6 @@
-﻿namespace CavernOfTime
+﻿using CavernOfTime.Common;
+
+namespace CavernOfTime
 {
     public delegate void PlayerPositionChangedHandler(Cavern cavern, Position prevPosition);
 
@@ -64,9 +66,14 @@
 
 
 
-        #region Events
+        #region Log
 
-        public event EventLogHandler? EventLog;
+        public LimitQueue<string> LogHistory { get; } = new LimitQueue<string>(5);
+
+        private void AddToLog(string message)
+        {
+            LogHistory.Enqueue(message);
+        }
 
         #endregion
 
@@ -90,7 +97,7 @@
                 if (samePosition) { return; }
 
                 _playerPosition = value;
-                EventLog?.Invoke($"Player moved to {PlayerPosition}");
+                AddToLog($"Player moved to {PlayerPosition}");
                 PlayerPositionChanged?.Invoke(this, value);
             }
         }
@@ -135,7 +142,7 @@
             if (item == null) { return false; }
 
             bool interacted = item.InteractWithPlayer(this, out string? logMsg);
-            if (logMsg != null) EventLog?.Invoke(logMsg);
+            if (logMsg != null) AddToLog(logMsg);
 
             if (!item.IsActive)
             {
@@ -160,7 +167,7 @@
             if (target == null) { return false; }
 
             bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon, out string? logMsg);
-            if (logMsg != null) EventLog?.Invoke(logMsg);
+            if (logMsg != null) AddToLog(logMsg);
 
             CleanInactiveCavernItems();
 

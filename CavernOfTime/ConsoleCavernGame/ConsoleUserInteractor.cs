@@ -1,54 +1,56 @@
-﻿using CavernOfTime.Common;
-
-namespace CavernOfTime.ConsoleGame
+﻿namespace CavernOfTime.ConsoleGame
 {
     internal class ConsoleUserInteractor : IUserInteractor
     {
         #region Constructors
 
-        public ConsoleUserInteractor(IKeyboardController controller)
+        public ConsoleUserInteractor()
         {
-            PlayerMoveController = controller;
+            KeyboardController = new ConsoleKeyboardController();
+            CavernDisplayer = new ConsoleCavernDisplayer();
         }
 
         #endregion
 
         #region Members
 
-        IKeyboardController PlayerMoveController { get; }
+        private ConsoleKeyboardController KeyboardController { get; }
+
+        private ConsoleCavernDisplayer CavernDisplayer { get; }
 
         #endregion
 
-        #region Say.
+        #region Display.
 
-        public void SayWelcome()
+        public void DisplayWelcomScreen()
         {
-            Say("Hello! Welcome to Cavern of time game!");
-            Say("In this game you'll have to find fountain and come back alive!");
-            Say("Good luck!");
+            Console.WriteLine("Hello! Welcome to Cavern of time game!");
+            Console.WriteLine("In this game you'll have to find fountain and come back alive!");
+            Console.WriteLine("Good luck!");
+
+            Console.WriteLine();
+            Console.WriteLine($"\nKeybindings:\n{KeyboardController.KeybindingsHelp()}\n");
         }
 
-        public void SayGoodbye()
+        public void DisplayGoodbyeScreen()
         {
-            Say("Thank you for playing!");
+            Console.WriteLine("Thank you for playing!");
         }
 
-        public void Say(string message)
+        public void DisplayCavern(Cavern cavern)
         {
-            Console.WriteLine(message);
+            CavernDisplayer.Display(cavern);
         }
 
-        public void SayError(string errorMessage)
+        public void DisplayError(string errorMessage)
         {
             Console.WriteLine($"Something went wrong, reason: {errorMessage}");
         }
 
-        public void StepEnd()
-        {
-            Console.Clear();
-        }
-
         #endregion
+
+
+
 
         #region Ask.
 
@@ -68,38 +70,15 @@ namespace CavernOfTime.ConsoleGame
 
         public PlayerAction WaitPlayerAction()
         {
-            string availableDirections = string.Join(", ", PlayerMoveController.Keybindings.Keys);
+            string keys = string.Join(", ", KeyboardController.Keybindings.Keys);
 
-            Console.Write($"Move! ({availableDirections}).");
-            PlayerAction action = PlayerMoveController.WaitPlayerAction();
+            Console.Write($"Press ({keys}).");
+            PlayerAction action = KeyboardController.WaitPlayerAction();
 
             return action;
         }
 
         #endregion
-
-
-        #region Log
-
-        private LimitQueue<string> LogHistory { get; } = new LimitQueue<string>(5);
-
-        public void AddToLog(string message)
-        {
-            LogHistory.Enqueue(message);
-        }
-
-        public void ShowLog()
-        {
-            Console.WriteLine();
-            foreach (string message in LogHistory)
-            {
-                Console.WriteLine(message);
-            }
-            Console.WriteLine();
-        }
-
-        #endregion
-
 
 
 

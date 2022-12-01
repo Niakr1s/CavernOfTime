@@ -1,18 +1,24 @@
 ﻿namespace CavernOfTime.ConsoleGame
 {
-    internal class ConsoleKeyboardController : IKeyboardController
+    internal class ConsoleKeyboardController
     {
         #region Constructors
 
-        private ConsoleKeyboardController(
-            Dictionary<ConsoleKey, PlayerAction> keybindings)
+        public ConsoleKeyboardController()
+        {
+        }
+
+        public ConsoleKeyboardController(Dictionary<ConsoleKey, PlayerAction> keybindings)
         {
             Keybindings = keybindings;
         }
 
-        public static ConsoleKeyboardController WsadAndArrows()
-        {
-            Dictionary<ConsoleKey, PlayerAction> directionKeybindings = new()
+        #endregion
+
+
+        #region Members
+
+        public Dictionary<ConsoleKey, PlayerAction> Keybindings { get; } = new()
             {
                 { ConsoleKey.W, new(){ Direction = Direction.North } },
                 { ConsoleKey.S, new(){ Direction = Direction.South } },
@@ -28,16 +34,6 @@
                 {ConsoleKey.Spacebar , new() {WantInteract = true} },
             };
 
-            return new ConsoleKeyboardController(directionKeybindings);
-        }
-
-        #endregion
-
-
-        #region Members
-
-        public Dictionary<ConsoleKey, PlayerAction> Keybindings { get; }
-
         #endregion
 
         public PlayerAction WaitPlayerAction()
@@ -49,6 +45,12 @@
             } while (!Keybindings.ContainsKey(key));
 
             return Keybindings[key];
+        }
+
+
+        public string KeybindingsHelp()
+        {
+            return string.Join("\n", Keybindings.Select(kb => $"{kb.Key} => {kb.Value.ToString()!.Split('.')[^1]}"));
         }
 
         #region Helpers

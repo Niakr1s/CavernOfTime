@@ -1,6 +1,6 @@
 ﻿namespace CavernOfTime.Common
 {
-    internal class LimitQueue<T> : Queue<T>
+    public class LimitQueue<T> : Queue<T>
     {
         public LimitQueue(int limit) : base(limit)
         {
