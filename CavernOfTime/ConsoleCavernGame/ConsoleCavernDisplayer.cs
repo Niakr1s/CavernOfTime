@@ -48,13 +48,13 @@ namespace CavernOfTime.ConsoleGame
 
         private void DisplayPlayer(Cavern cavern)
         {
-            Console.WriteLine($"Player:");
+            string deadStatus = cavern.Player.IsDead ? "dead" : "alive";
+
+            Console.WriteLine($"Player is {deadStatus}.");
+            Console.WriteLine($"Health: {cavern.Player.Health} of {cavern.Player.Health.MaxHealth}.");
 
             string fountainVisitedStatus = cavern.Player.FountainVisited ? "Power of fountain aquired." : "Power of fountain not aquired.";
             Console.WriteLine(fountainVisitedStatus);
-
-            string deadStatus = cavern.Player.IsDead ? "Player is dead" : "Player is alive";
-            Console.WriteLine(deadStatus);
         }
 
         public void DisplayLog(Cavern cavern)
@@ -105,8 +105,13 @@ namespace CavernOfTime.ConsoleGame
 
         private void WriteIconWithColor(char icon, ConsoleColor color)
         {
+            WriteWithColor(icon.ToString(), color);
+        }
+
+        private void WriteWithColor(string str, ConsoleColor color)
+        {
             Console.ForegroundColor = color;
-            Console.Write(icon);
+            Console.Write(str);
             Console.ResetColor();
         }
 
