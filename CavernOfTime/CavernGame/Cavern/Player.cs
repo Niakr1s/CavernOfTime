@@ -16,7 +16,7 @@
 
 
 
-        public Weapon Weapon { get; set; } = new Weapon(10);
+        public Weapon Weapon { get; set; } = new Axe(10);
 
         public Health Health { get; set; } = new Health(100);
     }
