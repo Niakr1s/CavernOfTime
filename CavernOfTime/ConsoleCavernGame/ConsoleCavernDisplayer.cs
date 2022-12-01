@@ -89,7 +89,7 @@ namespace CavernOfTime.ConsoleGame
 
         private void WritePlayerIcon(Player player)
         {
-            WriteIconWithColor(_playerIcon, player.Health.Color());
+            WriteIconWithColor(_playerIcon, player.Color());
         }
 
         private void WriteCavernItem(CavernItem? item)

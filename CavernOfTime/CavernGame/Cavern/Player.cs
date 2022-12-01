@@ -1,6 +1,6 @@
 ﻿namespace CavernOfTime
 {
-    public class Player
+    public class Player : IWithHealth
     {
 
         public bool FountainVisited { get; set; } = false;
@@ -18,6 +18,6 @@
 
         public Weapon Weapon { get; set; } = new Axe(10);
 
-        public Health Health { get; set; } = new Health(100);
+        public Health Health { get; } = new Health(100);
     }
 }

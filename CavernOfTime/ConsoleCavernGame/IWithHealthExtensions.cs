@@ -1,9 +1,10 @@
 ﻿namespace CavernOfTime.ConsoleCavernGame
 {
-    internal static class HealthExtensions
+    internal static class IWithHealthExtensions
     {
-        internal static ConsoleColor Color(this Health health)
+        internal static ConsoleColor Color(this IWithHealth withHealth)
         {
+            Health health = withHealth.Health;
             if (health.IsDead)
             {
                 return ConsoleColor.Red;

@@ -26,7 +26,7 @@ namespace CavernOfTime.ConsoleCavernGame
 
             if (attrColor != null) { return attrColor.Value; }
 
-            if (item is Mob m) { return m.Health.Color(); }
+            if (item is IWithHealth h) { return h.Color(); }
 
             return ConsoleColor.White;
         }

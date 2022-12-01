@@ -1,7 +1,7 @@
 ﻿namespace CavernOfTime
 {
     [ConsoleFormat('M')]
-    public abstract class Mob : CavernItem
+    public abstract class Mob : CavernItem, IWithHealth
     {
         public Mob(Health health)
         {
