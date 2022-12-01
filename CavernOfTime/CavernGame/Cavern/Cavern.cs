@@ -20,9 +20,9 @@ namespace CavernOfTime
 
         public LimitQueue<string> LogHistory { get; } = new LimitQueue<string>(5);
 
-        private void AddToLog(string message)
+        private void AddToLog(string? message)
         {
-            LogHistory.Enqueue(message);
+            if (message != null) { LogHistory.Enqueue(message); }
         }
 
 
@@ -68,11 +68,11 @@ namespace CavernOfTime
             if (item is Mob)
             {
                 item.ReceiveAttackFromPlayer(Player.Weapon, out string? attackLogMsg);
-                if (attackLogMsg != null) AddToLog(attackLogMsg);
+                AddToLog(attackLogMsg);
             }
 
             bool interacted = item.InteractWithPlayer(this, out string? logMsg);
-            if (logMsg != null) AddToLog(logMsg);
+            AddToLog(logMsg);
 
             if (!item.IsActive)
             {
@@ -98,7 +98,7 @@ namespace CavernOfTime
             if (target == null) { return false; }
 
             bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon, out string? attackLogMsg);
-            if (attackLogMsg != null) AddToLog(attackLogMsg);
+            AddToLog(attackLogMsg);
 
             Map.CleanInactiveCavernItems();
 
@@ -134,7 +134,7 @@ namespace CavernOfTime
             foreach (Mob m in Map.GetCavernItems(skipItemAtPlayerPosition: true).OfType<Mob>())
             {
                 m.AttackPlayer(this, out string? attackLogMsg);
-                if (attackLogMsg != null) { AddToLog(attackLogMsg); }
+                AddToLog(attackLogMsg);
             }
         }
 
