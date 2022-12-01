@@ -89,7 +89,7 @@ namespace CavernOfTime
 
         private void PlayerAttackDirection(Cavern cavern, Direction attackDirection)
         {
-            cavern.PlayerAttackDirection(attackDirection);
+            cavern.PlayerAttack(attackDirection);
         }
 
         private void PlayerInteractWithItem(Cavern cavern)

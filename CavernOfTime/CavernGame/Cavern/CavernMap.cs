@@ -162,15 +162,6 @@
         }
 
         /// <summary>
-        /// Gets cavern item at player's position.
-        /// </summary>
-        /// <returns></returns>
-        public CavernItem? GetCavernItem()
-        {
-            return GetCavernItem(PlayerPosition);
-        }
-
-        /// <summary>
         /// Removes cavern item at position.
         /// </summary>
         /// <param name="position"></param>
@@ -182,15 +173,6 @@
 
             Map[position.Row, position.Col] = null;
             return true;
-        }
-
-        /// <summary>
-        /// Removes cavern item at player's position.
-        /// </summary>
-        /// <returns>True, if item was actually deleted</returns>
-        public bool RemoveCavernItem()
-        {
-            return RemoveCavernItem(PlayerPosition);
         }
 
         public void CleanInactiveCavernItems()

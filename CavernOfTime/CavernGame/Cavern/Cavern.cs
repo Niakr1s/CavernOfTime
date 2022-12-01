@@ -57,15 +57,24 @@ namespace CavernOfTime
         /// <returns></returns>
         public bool InteractPlayerWithItem(out CavernItem? item)
         {
-            item = Map.GetCavernItem();
+            Position itemPosition = Map.PlayerPosition;
+
+            item = Map.GetCavernItem(itemPosition);
             if (item == null) { return false; }
+
+            // We want attack before.
+            if (item is Mob)
+            {
+                item.ReceiveAttackFromPlayer(Player.Weapon, out string? attackLogMsg);
+                if (attackLogMsg != null) AddToLog(attackLogMsg);
+            }
 
             bool interacted = item.InteractWithPlayer(this, out string? logMsg);
             if (logMsg != null) AddToLog(logMsg);
 
             if (!item.IsActive)
             {
-                Map.RemoveCavernItem();
+                Map.RemoveCavernItem(itemPosition);
             }
 
             return interacted;
@@ -75,9 +84,12 @@ namespace CavernOfTime
         /// Interacts player with item on Player's position.
         /// </summary>
         /// <returns></returns>
-        public bool PlayerAttackDirection(Direction attackDirection)
+        public bool PlayerAttack(Direction? attackDirection)
         {
-            Position attackPosition = Map.PlayerPosition.To(attackDirection);
+            bool isMeleeAttack = attackDirection == null;
+
+            // attackDirection is not null here
+            Position attackPosition = isMeleeAttack ? Map.PlayerPosition : Map.PlayerPosition.To((Direction)attackDirection!);
 
             bool inBounds = attackPosition.IsInBounds(Map);
             if (!inBounds) { return false; }
@@ -85,8 +97,15 @@ namespace CavernOfTime
             CavernItem? target = Map.GetCavernItem(attackPosition);
             if (target == null) { return false; }
 
-            bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon, out string? logMsg);
-            if (logMsg != null) AddToLog(logMsg);
+            bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon, out string? attackLogMsg);
+            if (attackLogMsg != null) AddToLog(attackLogMsg);
+
+            // counterattack
+            if (isMeleeAttack)
+            {
+                target.InteractWithPlayer(this, out string? counterAttackLogMsg);
+                if (counterAttackLogMsg != null) AddToLog(counterAttackLogMsg);
+            }
 
             Map.CleanInactiveCavernItems();
 
