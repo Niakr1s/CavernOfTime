@@ -7,6 +7,7 @@
             return item switch
             {
                 Fountain => 'F',
+                Exit => 'E',
                 Pit => 'X',
                 Teleport => 'T',
                 Mob => 'M',
@@ -19,6 +20,7 @@
             return item switch
             {
                 Fountain => ConsoleColor.Cyan,
+                Exit => ConsoleColor.Cyan,
                 Pit => ConsoleColor.Magenta,
                 Teleport => ConsoleColor.Magenta,
                 Mob m => m.Health.Color(),

@@ -16,10 +16,12 @@
 
             Map = new CavernItem?[rows, cols];
 
-            // Fountains should be first.
+            // Exit should be first.
+            AddCavernItemAtRandomPosition(new Exit(), numTries: 100);
+
             for (int i = 0; i < config.Fountains; i++)
             {
-                AddCavernItemAtRandomPosition(new Fountain(), numTries: 5);
+                AddCavernItemAtRandomPosition(new Fountain(), numTries: 100);
             }
 
             for (int i = 0; i < config.Pits; i++)
