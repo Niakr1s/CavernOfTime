@@ -3,12 +3,12 @@
     public record Position(int Row, int Col)
     {
         /// <summary>
-        /// 
+        /// Gets position, relative to direction
         /// </summary>
         /// <param name="direction"></param>
         /// <returns>New position, relevant to direction</returns>
         /// <exception cref="ArgumentException"></exception>
-        public Position MoveToDirection(Direction direction)
+        public Position To(Direction direction)
         {
             return direction switch
             {

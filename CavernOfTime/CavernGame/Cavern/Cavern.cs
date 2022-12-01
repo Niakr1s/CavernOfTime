@@ -36,7 +36,7 @@ namespace CavernOfTime
         /// <returns>True, if move was successfull.</returns>
         public bool MovePlayerToDirection(Direction direction)
         {
-            Position newPlayerPosition = Map.PlayerPosition.MoveToDirection(direction);
+            Position newPlayerPosition = Map.PlayerPosition.To(direction);
             return MovePlayerToPosition(newPlayerPosition);
         }
 
@@ -77,7 +77,7 @@ namespace CavernOfTime
         /// <returns></returns>
         public bool PlayerAttackDirection(Direction attackDirection)
         {
-            Position attackPosition = Map.PlayerPosition.MoveToDirection(attackDirection);
+            Position attackPosition = Map.PlayerPosition.To(attackDirection);
 
             bool inBounds = attackPosition.IsInBounds(Map);
             if (!inBounds) { return false; }
