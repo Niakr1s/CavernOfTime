@@ -17,7 +17,11 @@
         /// <param name="map"></param>
         /// <param name="logMsg">Should be not null, if interaction was done.</param>
         /// <returns></returns>
-        public abstract bool InteractWithPlayer(Cavern cavern, out string? logMsg);
+        public virtual bool InteractWithPlayer(Cavern cavern, out string? logMsg)
+        {
+            logMsg = null;
+            return false;
+        }
 
         /// <summary>
         /// 
