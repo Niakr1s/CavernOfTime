@@ -1,4 +1,6 @@
-﻿namespace CavernOfTime.ConsoleGame
+﻿using CavernOfTime.PlayerActions;
+
+namespace CavernOfTime.ConsoleGame
 {
     internal class ConsoleKeyboardController
     {
@@ -20,18 +22,18 @@
 
         public Dictionary<ConsoleKey, PlayerAction> Keybindings { get; } = new()
             {
-                { ConsoleKey.W, new(){ Direction = Direction.North } },
-                { ConsoleKey.S, new(){ Direction = Direction.South } },
-                { ConsoleKey.A, new(){ Direction = Direction.West } },
-                { ConsoleKey.D, new(){ Direction = Direction.East } },
+                { ConsoleKey.W, new PlayerMoveAction(){ Direction = Direction.North } },
+                { ConsoleKey.S, new PlayerMoveAction(){ Direction = Direction.South } },
+                { ConsoleKey.A, new PlayerMoveAction(){ Direction = Direction.West } },
+                { ConsoleKey.D, new PlayerMoveAction(){ Direction = Direction.East } },
 
-                { ConsoleKey.UpArrow, new(){ ShootDirection = Direction.North } },
-                { ConsoleKey.DownArrow, new(){ ShootDirection = Direction.South } },
-                { ConsoleKey.LeftArrow, new(){ ShootDirection = Direction.West } },
-                { ConsoleKey.RightArrow, new(){ ShootDirection = Direction.East } },
+                { ConsoleKey.UpArrow, new PlayerShootAction(){ Direction = Direction.North } },
+                { ConsoleKey.DownArrow, new PlayerShootAction(){ Direction = Direction.South } },
+                { ConsoleKey.LeftArrow, new PlayerShootAction(){ Direction = Direction.West } },
+                { ConsoleKey.RightArrow, new PlayerShootAction(){ Direction = Direction.East } },
 
-                {ConsoleKey.Enter , new() {WantInteract = true} },
-                {ConsoleKey.Spacebar , new() {WantInteract = true} },
+                {ConsoleKey.Enter , new PlayerInteractRequestAction() },
+                {ConsoleKey.Spacebar , new PlayerInteractRequestAction() },
             };
 
         #endregion

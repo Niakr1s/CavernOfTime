@@ -1,4 +1,6 @@
-﻿namespace CavernOfTime
+﻿using CavernOfTime.PlayerActions;
+
+namespace CavernOfTime
 {
     public interface IIO
     {

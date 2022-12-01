@@ -1,4 +1,6 @@
-﻿namespace CavernOfTime
+﻿using CavernOfTime.PlayerActions;
+
+namespace CavernOfTime
 {
     public class CavernGame
     {
@@ -64,22 +66,23 @@
         /// <returns></returns>
         private void HandlePlayerAction(Cavern cavern, PlayerAction action)
         {
-            if (action.Direction is Direction direction)
+            switch (action)
             {
-                PlayerMoveToDirection(cavern, direction);
-                return;
-            }
+                case PlayerMoveAction moveAction:
+                    PlayerMoveToDirection(cavern, moveAction.Direction);
+                    break;
 
-            if (action.ShootDirection is Direction attackDirection)
-            {
-                PlayerAttackDirection(cavern, attackDirection);
-                return;
-            }
+                case PlayerShootAction attackAction:
+                    PlayerAttackDirection(cavern, attackAction.Direction);
+                    break;
 
-            if (action.WantInteract)
-            {
-                PlayerInteractWithItem(cavern);
-                return;
+                case PlayerInteractRequestAction:
+                    PlayerInteractWithItem(cavern);
+                    break;
+
+                default:
+                    Io.DisplayError($"Unknown action: {action}");
+                    break;
             }
         }
 

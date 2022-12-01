@@ -1,4 +1,6 @@
-﻿namespace CavernOfTime.ConsoleGame
+﻿using CavernOfTime.PlayerActions;
+
+namespace CavernOfTime.ConsoleGame
 {
     internal class ConsoleIO : IIO
     {
