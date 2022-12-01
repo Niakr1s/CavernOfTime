@@ -72,7 +72,7 @@
         {
             if (action.Direction is Direction direction)
             {
-                MovePlayerToDirection(cavern, direction);
+                PlayerMoveToDirection(cavern, direction);
                 return;
             }
 
@@ -84,12 +84,12 @@
 
             if (action.WantInteract)
             {
-                InteractPlayerWithItem(cavern);
+                PlayerInteractWithItem(cavern);
                 return;
             }
         }
 
-        private void MovePlayerToDirection(Cavern cavern, Direction direction)
+        private void PlayerMoveToDirection(Cavern cavern, Direction direction)
         {
             cavern.MovePlayerToDirection(direction);
         }
@@ -99,7 +99,7 @@
             cavern.PlayerAttackDirection(attackDirection);
         }
 
-        private void InteractPlayerWithItem(Cavern cavern)
+        private void PlayerInteractWithItem(Cavern cavern)
         {
             cavern.InteractPlayerWithItem(out CavernItem? _);
         }
@@ -111,7 +111,7 @@
 
         private void OnPlayerPositionChanged(Cavern cavern, Position position)
         {
-            InteractPlayerWithItem(cavern);
+            PlayerInteractWithItem(cavern);
         }
 
         private void OnEventLog(string logMsg)
