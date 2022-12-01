@@ -9,6 +9,8 @@
 
         public virtual bool AutoInteract { get; } = true;
 
+        public Position? Position { get; set; } = null;
+
         /// <summary>
         /// Calls, when player means to interact with item.
         /// </summary>

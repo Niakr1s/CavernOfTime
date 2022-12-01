@@ -48,6 +48,8 @@ namespace CavernOfTime
         {
             Position oldPosition = Map.PlayerPosition;
             Map.PlayerPosition = position;
+
+            OnTurnEnd();
             return oldPosition != Map.PlayerPosition;
         }
 
@@ -77,6 +79,7 @@ namespace CavernOfTime
                 Map.RemoveCavernItem(itemPosition);
             }
 
+            OnTurnEnd();
             return interacted;
         }
 
@@ -84,12 +87,9 @@ namespace CavernOfTime
         /// Interacts player with item on Player's position.
         /// </summary>
         /// <returns></returns>
-        public bool PlayerAttack(Direction? attackDirection)
+        public bool PlayerAttack(Direction attackDirection)
         {
-            bool isMeleeAttack = attackDirection == null;
-
-            // attackDirection is not null here
-            Position attackPosition = isMeleeAttack ? Map.PlayerPosition : Map.PlayerPosition.To((Direction)attackDirection!);
+            Position attackPosition = Map.PlayerPosition.To(attackDirection);
 
             bool inBounds = attackPosition.IsInBounds(Map);
             if (!inBounds) { return false; }
@@ -100,15 +100,9 @@ namespace CavernOfTime
             bool attackSuccess = target.ReceiveAttackFromPlayer(Player.Weapon, out string? attackLogMsg);
             if (attackLogMsg != null) AddToLog(attackLogMsg);
 
-            // counterattack
-            if (isMeleeAttack)
-            {
-                target.InteractWithPlayer(this, out string? counterAttackLogMsg);
-                if (counterAttackLogMsg != null) AddToLog(counterAttackLogMsg);
-            }
-
             Map.CleanInactiveCavernItems();
 
+            OnTurnEnd();
             return attackSuccess;
         }
 
@@ -122,6 +116,26 @@ namespace CavernOfTime
         {
             AddToLog($"Player moved from {prevPosition} to {newPosition}");
             InteractPlayerWithItem(out CavernItem? _);
+        }
+
+        #endregion
+
+
+
+        #region OnTurnEnd
+
+        private void OnTurnEnd()
+        {
+            MobsTurn();
+        }
+
+        private void MobsTurn()
+        {
+            foreach (Mob m in Map.GetCavernItems(skipItemAtPlayerPosition: true).OfType<Mob>())
+            {
+                m.AttackPlayer(this, out string? attackLogMsg);
+                if (attackLogMsg != null) { AddToLog(attackLogMsg); }
+            }
         }
 
         #endregion

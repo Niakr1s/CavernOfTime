@@ -2,10 +2,9 @@
 {
     public abstract class Mob : CavernItem
     {
-        public Mob(Health health, Weapon weapon)
+        public Mob(Health health)
         {
             Health = health;
-            Weapon = weapon;
         }
 
         public override bool IsActive
@@ -17,15 +16,16 @@
 
         public Health Health { get; }
 
-        public Weapon Weapon { get; }
+        public Weapon? MeleeWeapon { get; set; }
 
+        public Weapon? RangedWeapon { get; set; }
 
 
         #region CavernItem implementations 
 
         public sealed override bool InteractWithPlayer(Cavern cavern, out string? logMsg)
         {
-            return AttackPlayer(cavern.Player, out logMsg);
+            return AttackPlayer(cavern, out logMsg);
         }
 
         public override bool ReceiveAttackFromPlayer(Weapon weapon, out string? logMsg)
@@ -35,10 +35,35 @@
             return true;
         }
 
-        public virtual bool AttackPlayer(Player player, out string? logMsg)
+        public virtual bool AttackPlayer(Cavern cavern, out string? logMsg)
         {
-            player.Health.TakeDamage(Weapon.Damage);
-            logMsg = $"Player took {Weapon.Damage} damage from {GetType().Name}";
+            logMsg = null;
+            if (Position == null) return false;
+
+
+            // Melee
+            bool samePositionAsPlayer = Position == cavern.Map.PlayerPosition;
+            if (samePositionAsPlayer)
+            {
+                if (MeleeWeapon == null) { return false; }
+
+                cavern.Player.Health.TakeDamage(MeleeWeapon.Damage);
+                logMsg = $"Player took {MeleeWeapon.Damage} melee damage from {GetType().Name}";
+
+                return true;
+            }
+
+            if (RangedWeapon == null) return false;
+
+
+            // Ranged
+            InLineRelation? relation = Position.InLineRelation(cavern.Map.PlayerPosition);
+            if (relation == null) return false;
+            if (!relation.Value.IsReachable(RangedWeapon)) { return false; }
+
+            cavern.Player.Health.TakeDamage(RangedWeapon.Damage);
+            logMsg = $"Player took {RangedWeapon.Damage} ranged damage from {GetType().Name}";
+
             return true;
         }
 

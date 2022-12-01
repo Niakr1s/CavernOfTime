@@ -1,5 +1,19 @@
-﻿namespace CavernOfTime
+﻿using System.Diagnostics;
+
+namespace CavernOfTime
 {
+    public struct InLineRelation
+    {
+        public Direction Direction { get; init; }
+
+        public int Range { get; init; }
+
+        public bool IsReachable(Weapon weapon)
+        {
+            return weapon.Range >= Range;
+        }
+    }
+
     public record Position(int Row, int Col)
     {
         /// <summary>
@@ -20,6 +34,56 @@
             };
 
         }
+
+
+        /// <summary>
+        /// Checks if this and target are are at straight line.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="relation"></param>
+        /// <returns>
+        /// True, target is in straight line with this.
+        /// If target is same as this, returns false.
+        /// </returns>
+        public InLineRelation? InLineRelation(Position target)
+        {
+            if (this == target) { return null; }
+
+            int rowDiff = target.Row - Row, colDiff = target.Col - Col;
+
+            bool isInLine = rowDiff == 0 || colDiff == 0;
+            if (!isInLine) { return null; }
+
+            InLineRelation? relation = null;
+            if (rowDiff > 0)
+            {
+                relation = new InLineRelation() { Direction = Direction.North, Range = rowDiff };
+            }
+            else if (rowDiff < 0)
+            {
+                relation = new InLineRelation() { Direction = Direction.South, Range = -rowDiff };
+            }
+
+            // in horisontal line from here
+            else if (colDiff > 0)
+            {
+                relation = new InLineRelation() { Direction = Direction.East, Range = colDiff };
+            }
+            else if (colDiff < 0)
+            {
+                relation = new InLineRelation() { Direction = Direction.West, Range = -colDiff };
+            }
+
+            // O_O
+            else
+            {
+                throw new UnreachableException();
+            }
+
+            return relation;
+        }
+
+
 
         public static Position RandomInBounds(CavernMap cavern)
         {

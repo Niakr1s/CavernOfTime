@@ -149,6 +149,7 @@
         private void AddCavernItemAtPositionMust(CavernItem item, Position position)
         {
             Map[position.Row, position.Col] = item;
+            item.Position = position;
         }
 
         /// <summary>
@@ -186,6 +187,25 @@
                     if (item != null && !item.IsActive) { RemoveCavernItem(position); }
                 }
             }
+        }
+
+        public List<CavernItem> GetCavernItems(bool skipItemAtPlayerPosition = false)
+        {
+            var items = new List<CavernItem>();
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Cols; col++)
+                {
+                    Position position = new Position(row, col);
+                    if (skipItemAtPlayerPosition && position == PlayerPosition) { continue; }
+
+                    CavernItem? item = GetCavernItem(position);
+                    if (item == null) { continue; }
+
+                    items.Add(item);
+                }
+            }
+            return items;
         }
 
         #endregion
