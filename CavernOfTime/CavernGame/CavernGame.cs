@@ -49,6 +49,7 @@
             } while (!Rules.GameEnded(cavern));
 
             cavern.PlayerPositionChanged -= OnPlayerPositionChanged;
+            cavern.EventLog -= OnEventLog;
 
             CavernDisplayer.Display(cavern);
             UserInteractor.ShowLog();
