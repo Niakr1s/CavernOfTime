@@ -1,5 +1,6 @@
 ﻿namespace CavernOfTime
 {
+    [ConsoleFormat('T', ConsoleColor.Magenta)]
     public class Teleport : CavernItem
     {
         public override bool InteractWithPlayer(Cavern cavern, out string? logMsg)

@@ -1,5 +1,6 @@
 ﻿namespace CavernOfTime
 {
+    [ConsoleFormat('F', ConsoleColor.Cyan)]
     public class Fountain : CavernItem
     {
         public override bool InteractWithPlayer(Cavern cavern, out string? logMsg)

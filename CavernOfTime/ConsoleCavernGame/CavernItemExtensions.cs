@@ -1,31 +1,34 @@
-﻿namespace CavernOfTime.ConsoleCavernGame
+﻿using System.Reflection;
+
+namespace CavernOfTime.ConsoleCavernGame
 {
     internal static class CavernItemExtensions
     {
         internal static char Icon(this CavernItem item)
         {
-            return item switch
+            ConsoleFormatAttribute? formatAttr =
+                item.GetType().GetCustomAttribute<ConsoleFormatAttribute>();
+
+            if (formatAttr == null)
             {
-                Fountain => 'F',
-                Exit => 'E',
-                Pit => 'X',
-                Teleport => 'T',
-                Mob => 'M',
-                _ => throw new ArgumentException($"Unknown CavernItem {item}"),
-            };
+                throw new ArgumentException($"No format attribute for {item}");
+            }
+
+            return formatAttr.Icon;
         }
 
         internal static ConsoleColor Color(this CavernItem item)
         {
-            return item switch
-            {
-                Fountain => ConsoleColor.Cyan,
-                Exit => ConsoleColor.Cyan,
-                Pit => ConsoleColor.Magenta,
-                Teleport => ConsoleColor.Magenta,
-                Mob m => m.Health.Color(),
-                _ => throw new ArgumentException($"Unknown CavernItem {item}"),
-            };
+            ConsoleFormatAttribute? formatAttr =
+                item.GetType().GetCustomAttribute<ConsoleFormatAttribute>();
+
+            ConsoleColor? attrColor = formatAttr?.Color;
+
+            if (attrColor != null) { return attrColor.Value; }
+
+            if (item is Mob m) { return m.Health.Color(); }
+
+            return ConsoleColor.White;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace CavernOfTime
 {
+    [ConsoleFormat('M')]
     public abstract class Mob : CavernItem
     {
         public Mob(Health health)
