@@ -9,7 +9,7 @@
 
         public bool IsWin(Cavern cavern)
         {
-            bool playerAtStart = cavern.PlayerPosition == new Position(0, 0);
+            bool playerAtStart = cavern.Map.PlayerPosition == new Position(0, 0);
             bool fountainVisited = cavern.Player.FountainVisited;
             bool playerNotDead = !cavern.Player.IsDead;
 

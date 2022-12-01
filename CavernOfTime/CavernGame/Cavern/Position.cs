@@ -21,7 +21,7 @@
 
         }
 
-        public static Position RandomInBounds(Cavern cavern)
+        public static Position RandomInBounds(CavernMap cavern)
         {
             Random rand = new Random();
             int rows = rand.Next(cavern.Rows);
@@ -47,9 +47,9 @@
         /// <param name="rows"></param>
         /// <param name="cols"></param>
         /// <returns></returns>
-        internal bool IsInBounds(Cavern cavern)
+        internal bool IsInBounds(CavernMap map)
         {
-            return IsInBounds(cavern.Rows, cavern.Cols);
+            return IsInBounds(map.Rows, map.Cols);
         }
     }
 }

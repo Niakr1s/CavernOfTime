@@ -36,8 +36,6 @@ namespace CavernOfTime
 
             Cavern cavern = CreateCavern();
 
-            cavern.PlayerPositionChanged += OnPlayerPositionChanged;
-
             do
             {
                 Io.DisplayCavern(cavern);
@@ -45,8 +43,6 @@ namespace CavernOfTime
                 PlayerAction action = Io.WaitPlayerAction();
                 HandlePlayerAction(cavern, action);
             } while (!Rules.GameEnded(cavern));
-
-            cavern.PlayerPositionChanged -= OnPlayerPositionChanged;
 
             Io.DisplayCavern(cavern);
             Io.DisplayGoodbyeScreen();
@@ -104,17 +100,6 @@ namespace CavernOfTime
         #endregion
 
 
-        #region Event handlers
-
-        private void OnPlayerPositionChanged(Cavern cavern, Position position)
-        {
-            PlayerInteractWithItem(cavern);
-        }
-
-        #endregion
-
-
-
 
         #region Helpers
 
@@ -124,20 +109,22 @@ namespace CavernOfTime
         /// <returns></returns>
         private Cavern CreateCavern()
         {
-            Cavern? cavern = null;
+            CavernMap? map = null;
             do
             {
                 try
                 {
                     Io.AskCavernDimensions(out int rows, out int cols);
-                    cavern = new Cavern(rows, cols);
+                    map = new CavernMap(rows, cols);
                 }
                 catch (Exception e)
                 {
                     Io.DisplayError(e);
                 }
 
-            } while (cavern == null);
+            } while (map == null);
+
+            Cavern cavern = new Cavern(map);
 
             return cavern;
         }

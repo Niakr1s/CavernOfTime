@@ -12,7 +12,7 @@
         /// <summary>
         /// Calls, when player means to interact with item.
         /// </summary>
-        /// <param name="cavern"></param>
+        /// <param name="map"></param>
         /// <param name="logMsg">Should be not null, if interaction was done.</param>
         /// <returns></returns>
         public abstract bool InteractWithPlayer(Cavern cavern, out string? logMsg);

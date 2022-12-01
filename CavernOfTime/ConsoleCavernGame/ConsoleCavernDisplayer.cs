@@ -15,10 +15,10 @@ namespace CavernOfTime.ConsoleGame
             DisplayCavernMap(cavern);
             Console.WriteLine();
 
-            DisplayPlayer(cavern.Player);
+            DisplayPlayer(cavern);
             Console.WriteLine();
 
-            DisplayLog(cavern.LogHistory);
+            DisplayLog(cavern);
             Console.WriteLine();
         }
 
@@ -29,12 +29,12 @@ namespace CavernOfTime.ConsoleGame
         {
             Console.WriteLine($"Cavern:");
 
-            string rowStr = new string('-', cavern.Cols * 2 + 2);
+            string rowStr = new string('-', cavern.Map.Cols * 2 + 2);
 
             Console.WriteLine(rowStr);
-            for (int row = cavern.Rows - 1; row >= 0; row--)
+            for (int row = cavern.Map.Rows - 1; row >= 0; row--)
             {
-                for (int col = 0; col < cavern.Cols; col++)
+                for (int col = 0; col < cavern.Map.Cols; col++)
                 {
                     Console.Write("|");
 
@@ -46,20 +46,20 @@ namespace CavernOfTime.ConsoleGame
             Console.WriteLine(rowStr);
         }
 
-        private void DisplayPlayer(Player player)
+        private void DisplayPlayer(Cavern cavern)
         {
             Console.WriteLine($"Player:");
 
-            string fountainVisitedStatus = player.FountainVisited ? "Power of fountain aquired." : "Power of fountain not aquired.";
+            string fountainVisitedStatus = cavern.Player.FountainVisited ? "Power of fountain aquired." : "Power of fountain not aquired.";
             Console.WriteLine(fountainVisitedStatus);
 
-            string deadStatus = player.IsDead ? "Player is dead" : "Player is alive";
+            string deadStatus = cavern.Player.IsDead ? "Player is dead" : "Player is alive";
             Console.WriteLine(deadStatus);
         }
 
-        public void DisplayLog(IEnumerable<string> log)
+        public void DisplayLog(Cavern cavern)
         {
-            foreach (string message in log)
+            foreach (string message in cavern.LogHistory)
             {
                 Console.WriteLine(message);
             }
@@ -76,14 +76,14 @@ namespace CavernOfTime.ConsoleGame
 
         private void WriteIcon(Cavern cavern, Position position)
         {
-            bool playerAtPosition = cavern.PlayerPosition == position;
+            bool playerAtPosition = cavern.Map.PlayerPosition == position;
             if (playerAtPosition)
             {
                 WritePlayerIcon(cavern.Player);
             }
             else
             {
-                WriteCavernItem(cavern.GetCavernItem(position));
+                WriteCavernItem(cavern.Map.GetCavernItem(position));
             }
         }
 
