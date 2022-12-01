@@ -51,5 +51,10 @@
         {
             return IsInBounds(map.Rows, map.Cols);
         }
+
+        public override string ToString()
+        {
+            return $"[{Row},{Col}]";
+        }
     }
 }
