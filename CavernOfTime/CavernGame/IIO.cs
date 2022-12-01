@@ -1,6 +1,6 @@
 ﻿namespace CavernOfTime
 {
-    public interface IUserInteractor
+    public interface IIO
     {
         #region Display
 

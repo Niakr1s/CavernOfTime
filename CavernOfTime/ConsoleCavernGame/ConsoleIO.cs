@@ -1,10 +1,10 @@
 ﻿namespace CavernOfTime.ConsoleGame
 {
-    internal class ConsoleUserInteractor : IUserInteractor
+    internal class ConsoleIO : IIO
     {
         #region Constructors
 
-        public ConsoleUserInteractor()
+        public ConsoleIO()
         {
             KeyboardController = new ConsoleKeyboardController();
             CavernDisplayer = new ConsoleCavernDisplayer();

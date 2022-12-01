@@ -4,9 +4,9 @@
     {
         #region Constructors
 
-        public CavernGame(IRules rules, IUserInteractor userInteractor)
+        public CavernGame(IRules rules, IIO io)
         {
-            UserInteractor = userInteractor;
+            Io = io;
             Rules = rules;
         }
         #endregion
@@ -17,7 +17,7 @@
 
         #region Members
 
-        private IUserInteractor UserInteractor { get; }
+        private IIO Io { get; }
 
         private IRules Rules { get; }
 
@@ -30,7 +30,7 @@
 
         public void Start()
         {
-            UserInteractor.DisplayWelcomScreen();
+            Io.DisplayWelcomScreen();
 
             Cavern cavern = CreateCavern();
 
@@ -38,16 +38,16 @@
 
             do
             {
-                UserInteractor.DisplayCavern(cavern);
+                Io.DisplayCavern(cavern);
 
-                PlayerAction action = UserInteractor.WaitPlayerAction();
+                PlayerAction action = Io.WaitPlayerAction();
                 HandlePlayerAction(cavern, action);
             } while (!Rules.GameEnded(cavern));
 
             cavern.PlayerPositionChanged -= OnPlayerPositionChanged;
 
-            UserInteractor.DisplayCavern(cavern);
-            UserInteractor.DisplayGoodbyeScreen();
+            Io.DisplayCavern(cavern);
+            Io.DisplayGoodbyeScreen();
         }
 
         #endregion
@@ -126,12 +126,12 @@
             {
                 try
                 {
-                    UserInteractor.AskCavernDimensions(out int rows, out int cols);
+                    Io.AskCavernDimensions(out int rows, out int cols);
                     cavern = new Cavern(rows, cols);
                 }
                 catch (Exception e)
                 {
-                    UserInteractor.DisplayError(e);
+                    Io.DisplayError(e);
                 }
 
             } while (cavern == null);
